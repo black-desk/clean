@@ -1,0 +1,33 @@
+# If you prefer the allow list template instead of the deny list, see community template:
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+#
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# IDE/editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# By default, ignore Mac system files
+.DS_Store
+
+# Env
+.env
+
+# Test/coverage
+*.profraw
+*.profdata
+coverage.*
+*.out
+*.coverprofile
+profile.cov
+
+# Remove Go-specific ignores
+# (If you have Go code, add a separate section)
+
+# Other
+*.log

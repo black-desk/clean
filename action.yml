@@ -1,0 +1,25 @@
+name: 'clean-action'
+description: 'GitHub Action for running the clean binary built with Rust using the provided Containerfile.'
+author: 'black-desk'
+inputs:
+  args:
+    description: 'Arguments to pass to the clean binary (as a single string, e.g. "--foo bar --baz")'
+    required: false
+    default: --output "$GITHUB_STEP_SUMMARY"
+outputs:
+  result:
+    description: 'Output of the clean command (if any)'
+runs:
+  using: 'docker'
+  image: 'ghcr.io/black-desk/clean:latest'
+  entrypoint: '/usr/bin/env'
+  args:
+    - sh
+    - -c
+    - |
+      set -e
+      git config --global --add safe.directory /github/workspace
+      RUST_BACKTRACE=1 /opt/io.github.black-desk/clean/bin/clean ${{ inputs.args }}
+branding:
+  icon: 'terminal'
+  color: 'blue'
