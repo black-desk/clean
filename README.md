@@ -5,7 +5,25 @@ SPDX-FileCopyrightText: Copyright (C) 2025 Chen Linxuan <me@black-desk.cn>
 
 # clean
 
-[![codecov](https://codecov.io/gh/black-desk/clean/graph/badge.svg?token=M2XS1G362X)](https://codecov.io/gh/black-desk/clean)
+[![license][badge-shields-io-license]][license-file]
+[![checks][badge-shields-io-checks]][actions]
+[![codecov][badge-shields-io-codecov]][codecov]
+[![commit activity][badge-shields-io-commit-activity]][commits]
+[![contributors][badge-shields-io-contributors]][contributors]
+[![DeepWiki][badge-deepwiki]][deepwiki]
+
+[badge-shields-io-license]: https://img.shields.io/github/license/black-desk/clean
+[license-file]: LICENSE
+[badge-shields-io-checks]: https://img.shields.io/github/check-runs/black-desk/clean/master
+[actions]: https://github.com/black-desk/clean/actions
+[badge-shields-io-codecov]: https://codecov.io/gh/black-desk/clean/graph/badge.svg?token=M2XS1G362X
+[codecov]: https://codecov.io/github/black-desk/clean
+[badge-shields-io-commit-activity]: https://img.shields.io/github/commit-activity/w/black-desk/clean/master
+[commits]: https://github.com/black-desk/clean/commits/master
+[badge-shields-io-contributors]: https://img.shields.io/github/contributors/black-desk/clean
+[contributors]: https://github.com/black-desk/clean/graphs/contributors
+[badge-deepwiki]: https://deepwiki.com/badge.svg
+[deepwiki]: https://deepwiki.com/black-desk/clean
 
 A simple command-line tool to lint text files for common whitespace and line ending issues.
 
