@@ -13,7 +13,7 @@ outputs:
     description: 'YAML output'
 runs:
   using: 'docker'
-  image: 'ghcr.io/black-desk/clean:latest'
+  image: 'docker://ghcr.io/black-desk/clean:latest'
   entrypoint: '/usr/bin/env'
   args:
     - sh
