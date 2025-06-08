@@ -5,10 +5,14 @@ on:
 
 jobs:
   ci:
+    permissions:
+      id-token: write
+      contents: write
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: 'Lint: black-desk/clean'
         uses: ./
@@ -23,8 +27,8 @@ jobs:
         run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           files: lcov.info
           fail_ci_if_error: true
