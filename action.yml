@@ -6,9 +6,6 @@ inputs:
     description: 'Arguments to pass to the clean binary (as a single string, e.g. "--foo bar --baz")'
     required: false
     default: --output "$GITHUB_STEP_SUMMARY"
-outputs:
-  result:
-    description: 'Output of the clean command (if any)'
 runs:
   using: 'docker'
   image: 'ghcr.io/black-desk/clean:latest'
