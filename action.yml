@@ -29,6 +29,7 @@ runs:
       /opt/io.github.black-desk/clean/bin/clean --yaml ${{ inputs.extra_args }} >> "$GITHUB_OUTPUT" || true
       echo 'EOF' >> "$GITHUB_OUTPUT"
       /opt/io.github.black-desk/clean/bin/clean ${{ inputs.extra_args }} >> "$GITHUB_STEP_SUMMARY"
+
 branding:
-  icon: 'terminal'
+  icon: 'check-circle'
   color: 'blue'
