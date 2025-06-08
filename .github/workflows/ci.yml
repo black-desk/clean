@@ -1,20 +1,29 @@
-name: Coverage
+name: Continuous Integration
 
-on: [pull_request, push]
+on:
+  pull_request:
 
 jobs:
-  coverage:
-    runs-on: ubuntu-latest
+  ci:
     env:
       CARGO_TERM_COLOR: always
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: 'Lint: black-desk/clean'
+        uses: ./
+
       - name: Install Rust
         run: rustup update stable
+
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
-      - name: Generate code coverage
+
+      - name: Run tests
         run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
