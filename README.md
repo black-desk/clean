@@ -18,6 +18,7 @@ A simple command-line tool to lint text files for common whitespace and line end
 
 ## Usage
 
+
 ```text
 Usage: clean [OPTIONS] [DIR...]
 
