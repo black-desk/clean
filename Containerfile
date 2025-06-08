@@ -7,11 +7,11 @@ RUN cargo build --release
 
 FROM alpine:latest
 RUN apk add --no-cache git
-RUN git config --global --add safe.directory /mnt
 
 COPY --from=builder /mnt/source/target/release/clean /opt/io.github.black-desk/clean/bin/clean
 
-WORKDIR /mnt
 VOLUME ["/mnt"]
+RUN git config --global --add safe.directory /mnt
+WORKDIR /mnt
 
 ENTRYPOINT ["/opt/io.github.black-desk/clean/bin/clean"]
