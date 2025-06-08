@@ -86,7 +86,7 @@ This will show the help message for the clean tool inside the container. The cur
 
 ## GitHub Action Usage
 
-This repository provides a reusable GitHub Action for linting text files in your repository using `clean`. You can integrate it into your workflow to automatically check for whitespace and line ending issues on every push or pull request.
+This repository provides a reusable GitHub Action for automatically checking text files in your repository using the `clean` tool. You can integrate it into your workflow to detect whitespace and line ending issues on every push or pull request.
 
 ### Example Workflow
 
@@ -112,16 +112,23 @@ jobs:
         uses: black-desk/clean@master
         with:
           # Optional: pass arguments to clean
-          # args: --ignore "*.md" --ignore "target/*"
+          extra_args: '--ignore "*.md" --ignore "target/*"'
 ```
 
 #### Inputs
 
-- `args` (optional): Arguments to pass to the `clean` CLI. For example: `--ignore "*.md"`.
+- `extra_args` (optional): Arguments passed as a single string to the clean binary, e.g. `--ignore "*.md" --ignore "target/*"`.
 
-#### Output
+#### Outputs
 
-The action will run `clean` on your repository and fail the workflow if any issues are found. You can customize the arguments as needed.
+- `json`: JSON output from the clean tool.
+- `yaml`: YAML output from the clean tool.
+
+#### Behavior
+
+- The action runs clean with both `--json` and `--yaml` and writes the results to `${{ steps.<id>.outputs.json }}` and `${{ steps.<id>.outputs.yaml }}`.
+- The results are also appended to the GitHub Actions Step Summary.
+- You can reference these outputs in subsequent workflow steps.
 
 ## License
 
