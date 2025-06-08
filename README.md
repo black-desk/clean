@@ -84,6 +84,45 @@ docker run --rm -v "$(pwd)":/mnt ghrc.io/black-desk/clean:latest --help
 
 This will show the help message for the clean tool inside the container. The current directory will be mounted to `/mnt` inside the container, which is also the working directory.
 
+## GitHub Action Usage
+
+This repository provides a reusable GitHub Action for linting text files in your repository using `clean`. You can integrate it into your workflow to automatically check for whitespace and line ending issues on every push or pull request.
+
+### Example Workflow
+
+Create a file at `.github/workflows/lint.yml` in your repository with the following content:
+
+```yaml
+name: Lint Text Files
+
+on:
+  push:
+    paths:
+      - '**/*'
+  pull_request:
+    paths:
+      - '**/*'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint with clean
+        uses: black-desk/clean@master
+        with:
+          # Optional: pass arguments to clean
+          # args: --ignore "*.md" --ignore "target/*"
+```
+
+#### Inputs
+
+- `args` (optional): Arguments to pass to the `clean` CLI. For example: `--ignore "*.md"`.
+
+#### Output
+
+The action will run `clean` on your repository and fail the workflow if any issues are found. You can customize the arguments as needed.
+
 ## License
 
 This project is licensed under the GNU Affero General Public License v3.0. See the LICENSE file for details.
