@@ -2,10 +2,15 @@ name: 'clean-action'
 description: 'GitHub Action for running the clean binary built with Rust using the provided Containerfile.'
 author: 'black-desk'
 inputs:
-  args:
+  extra_args:
     description: 'Arguments to pass to the clean binary (as a single string, e.g. "--foo bar --baz")'
     required: false
-    default: --output "$GITHUB_STEP_SUMMARY"
+    default: ''
+outputs:
+  json:
+    description: 'JSON output'
+  yaml:
+    description: 'YAML output'
 runs:
   using: 'docker'
   image: 'ghcr.io/black-desk/clean:latest'
@@ -16,7 +21,14 @@ runs:
     - |
       set -e
       git config --global --add safe.directory /github/workspace
-      RUST_BACKTRACE=1 /opt/io.github.black-desk/clean/bin/clean ${{ inputs.args }}
+      export RUST_BACKTRACE=1
+      echo 'json<<EOF' >> "$GITHUB_OUTPUT"
+      /opt/io.github.black-desk/clean/bin/clean --json ${{ inputs.extra_args }} >> "$GITHUB_OUTPUT" || true
+      echo 'EOF' >> "$GITHUB_OUTPUT"
+      echo 'yaml<<EOF' >> "$GITHUB_OUTPUT"
+      /opt/io.github.black-desk/clean/bin/clean --yaml ${{ inputs.extra_args }} >> "$GITHUB_OUTPUT" || true
+      echo 'EOF' >> "$GITHUB_OUTPUT"
+      /opt/io.github.black-desk/clean/bin/clean ${{ inputs.extra_args }} >> "$GITHUB_STEP_SUMMARY"
 branding:
   icon: 'terminal'
   color: 'blue'
