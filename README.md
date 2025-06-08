@@ -5,6 +5,8 @@ SPDX-FileCopyrightText: Copyright (C) 2025 Chen Linxuan <me@black-desk.cn>
 
 # clean
 
+[![codecov](https://codecov.io/gh/black-desk/clean/graph/badge.svg?token=M2XS1G362X)](https://codecov.io/gh/black-desk/clean)
+
 A simple command-line tool to lint text files for common whitespace and line ending issues.
 
 ## Features
