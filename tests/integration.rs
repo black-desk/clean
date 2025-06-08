@@ -76,7 +76,7 @@ fn test_lint_crlf_line_ending() {
     let assert = cmd.assert().failure();
     let output = String::from_utf8_lossy(&assert.get_output().stdout);
     let json: serde_json::Value = serde_json::from_str(&output).unwrap();
-    // 允许多条，断言至少有一条 type=crlf_line_ending
+    // Allow multiple items, assert at least one item with type=crlf_line_ending
     assert!(json.as_array().unwrap().iter().any(|item| item["type"] == "crlf_line_ending"));
 }
 
@@ -91,7 +91,7 @@ fn test_lint_multiple_blank_lines_eof() {
     let assert = cmd.assert().failure();
     let output = String::from_utf8_lossy(&assert.get_output().stdout);
     let json: serde_json::Value = serde_json::from_str(&output).unwrap();
-    // 行号以实际输出为准，允许多余字段
+    // The line number is based on actual output, extra fields are allowed
     assert!(json.as_array().unwrap().iter().any(|item| item["type"] == "multiple_blank_lines_eof" && item["line"] == 4));
 }
 
