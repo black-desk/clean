@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Chen Linxuan <me@black-desk.cn>
+#
+# SPDX-License-Identifier: MIT
+
 name: 'clean-action'
 description: 'GitHub Action for running the clean binary built with Rust using the provided Containerfile.'
 author: 'black-desk'
