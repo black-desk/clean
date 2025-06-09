@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: black-desk/workflows/rust@master
 
-  build:
+  container:
     permissions:
       contents: read
       packages: write
