@@ -28,4 +28,4 @@ jobs:
     steps:
       - uses: black-desk/workflows/container@master
         with:
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          docker__build-push-action__push: true
