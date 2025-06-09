@@ -1,5 +1,6 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
 // SPDX-FileCopyrightText: Copyright (C) 2025 Chen Linxuan <me@black-desk.cn>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 use anyhow::Result;
 use clap::{ArgAction, Parser};

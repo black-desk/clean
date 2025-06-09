@@ -1,6 +1,7 @@
 <!--
-SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-FileCopyrightText: Copyright (C) 2025 Chen Linxuan <me@black-desk.cn>
+
+SPDX-License-Identifier: MIT
 -->
 
 # clean
@@ -152,4 +153,10 @@ jobs:
 
 ## License
 
-This project is licensed under the GNU Affero General Public License v3.0. See the LICENSE file for details.
+This project follows [the REUSE Specification](https://reuse.software/spec-3.3/).
+
+You can use [reuse-tool](https://github.com/fsfe/reuse-tool) to generate an SPDX Document of all files in the project like this:
+
+```bash
+reuse spdx
+```
