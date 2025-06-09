@@ -1,0 +1,13 @@
+name: Continuous integration for pull requests
+
+on:
+  pull_request:
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: black-desk/workflows/rust@master
