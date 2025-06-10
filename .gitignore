@@ -35,3 +35,7 @@ profile.cov
 
 # Other
 *.log
+
+# Added by goreleaser init:
+dist/
+.intentionally-empty-file.o
