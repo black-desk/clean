@@ -6,15 +6,12 @@ SPDX-License-Identifier: MIT
 
 # clean
 
-[![license][badge-shields-io-license]][license-file]
 [![checks][badge-shields-io-checks]][actions]
 [![codecov][badge-shields-io-codecov]][codecov]
 [![commit activity][badge-shields-io-commit-activity]][commits]
 [![contributors][badge-shields-io-contributors]][contributors]
 [![DeepWiki][badge-deepwiki]][deepwiki]
 
-[badge-shields-io-license]: https://img.shields.io/github/license/black-desk/clean
-[license-file]: LICENSES
 [badge-shields-io-checks]: https://img.shields.io/github/check-runs/black-desk/clean/master
 [actions]: https://github.com/black-desk/clean/actions
 [badge-shields-io-codecov]: https://codecov.io/gh/black-desk/clean/graph/badge.svg?token=M2XS1G362X
