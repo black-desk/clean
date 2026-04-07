@@ -212,7 +212,9 @@ fn main() -> Result<()> {
                     continue;
                 }
             }
-            match should_ignore(&path_str, &cli.ignore) {
+            let rel_path = path.strip_prefix(dir).unwrap_or(path);
+            let rel_str = rel_path.to_string_lossy();
+            match should_ignore(&rel_str, &cli.ignore) {
                 Ok(true) => continue,
                 Ok(false) => {}
                 Err(e) => {

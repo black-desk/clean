@@ -486,6 +486,23 @@ fn test_git_false_lint_all_files() {
     assert!(s.contains("untracked.txt"));
 }
 
+// Test: --ignore should work without "./" prefix for subdirectory patterns
+#[test]
+fn test_ignore_subdirectory_without_dot_slash() {
+    let temp = tempfile::tempdir().unwrap();
+    let subdir = temp.path().join("third_party").join("sub");
+    fs::create_dir_all(&subdir).unwrap();
+    let file1 = temp.path().join("third_party").join("top.txt");
+    let file2 = subdir.join("nested.txt");
+    fs::write(&file1, "foo \n").unwrap();
+    fs::write(&file2, "bar \n").unwrap();
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path())
+        .arg("--ignore")
+        .arg("third_party/**");
+    cmd.assert().success();
+}
+
 // Test: should only lint tracked files if --git is set in git repo
 #[test]
 fn test_git_true_only_tracked_files() {
