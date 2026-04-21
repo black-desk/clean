@@ -33,7 +33,7 @@ struct Cli {
     #[arg(long, action = ArgAction::SetTrue)]
     yaml: bool,
     /// Ignore file or path (supports glob, can be set multiple times)
-    #[arg(long, value_name = "PATTERN", num_args = 0.., action = ArgAction::Append)]
+    #[arg(long, value_name = "PATTERN", num_args = 0.., action = ArgAction::Append, env = "CLEAN_IGNORE", value_delimiter = ':')]
     ignore: Vec<String>,
     /// Write output to file instead of stdout
     #[arg(short, long, value_name = "FILE")]
