@@ -395,6 +395,37 @@ fn test_output_yaml_to_no_permission_file() {
     cmd.assert().failure();
 }
 
+// Test: should ignore files via CLEAN_IGNORE environment variable
+#[test]
+fn test_ignore_via_env() {
+    let temp = tempfile::tempdir().unwrap();
+    let file_path = temp.path().join("ignore.me");
+    fs::write(&file_path, "foo \n").unwrap();
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path()).env("CLEAN_IGNORE", "*.me");
+    cmd.assert().success();
+}
+
+// Test: should ignore multiple patterns via CLEAN_IGNORE env with colon delimiter
+#[test]
+fn test_ignore_multiple_patterns_via_env() {
+    let temp = tempfile::tempdir().unwrap();
+    let file1 = temp.path().join("a.md");
+    let file2 = temp.path().join("b.log");
+    let file3 = temp.path().join("c.txt");
+    fs::write(&file1, "foo \n").unwrap();
+    fs::write(&file2, "bar \n").unwrap();
+    fs::write(&file3, "baz \n").unwrap();
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path()).env("CLEAN_IGNORE", "*.md:*.log");
+    // Only c.txt should be linted, but it has trailing whitespace so should fail
+    let output = cmd.assert().failure().get_output().stdout.clone();
+    let s = String::from_utf8_lossy(&output);
+    assert!(!s.contains("a.md"));
+    assert!(!s.contains("b.log"));
+    assert!(s.contains("c.txt"));
+}
+
 // Test: should succeed if all files are ignored
 #[test]
 fn test_all_files_ignored() {

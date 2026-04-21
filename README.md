@@ -80,6 +80,15 @@ Ignore files matching a pattern (supports glob, invalid patterns are rejected):
 clean --ignore "*.md" --ignore "target/*"
 ```
 
+Ignore patterns can also be set via the `CLEAN_IGNORE` environment variable, using `:` to separate multiple patterns:
+
+```sh
+export CLEAN_IGNORE="*.md:target/*"
+clean
+```
+
+CLI `--ignore` arguments are appended on top of patterns from the environment variable.
+
 Write output to a file (fails if file is not writable or is a directory):
 
 ```sh

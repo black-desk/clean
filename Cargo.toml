@@ -8,7 +8,7 @@ version = "0.1.3"
 edition = "2021"
 
 [dependencies]
-clap = { version = "4", features = ["derive"] }
+clap = { version = "4", features = ["derive", "env"] }
 walkdir = "2"
 ignore = "0.4"
 serde = { version = "1", features = ["derive"] }
