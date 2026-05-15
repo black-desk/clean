@@ -553,3 +553,60 @@ fn test_git_true_only_tracked_files() {
     assert!(s.contains("tracked.txt"));
     assert!(!s.contains("untracked.txt"));
 }
+
+// Test: --fix should fix all issues and exit successfully
+#[test]
+fn test_fix_all_issues() {
+    let temp = tempfile::tempdir().unwrap();
+    let file_path = temp.path().join("test.txt");
+    // File with: trailing whitespace, CRLF, missing newline, multiple blank lines
+    fs::write(&file_path, "hello   \r\nworld\r\n\n\n").unwrap();
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path()).arg("--fix");
+    cmd.assert().success();
+    let fixed = fs::read_to_string(&file_path).unwrap();
+    assert_eq!(fixed, "hello\nworld\n");
+}
+
+// Test: --fix should leave clean files unchanged
+#[test]
+fn test_fix_clean_file_unchanged() {
+    let temp = tempfile::tempdir().unwrap();
+    let file_path = temp.path().join("clean.txt");
+    let original = "hello\nworld\n";
+    fs::write(&file_path, original).unwrap();
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path()).arg("--fix");
+    cmd.assert().success();
+    let after = fs::read_to_string(&file_path).unwrap();
+    assert_eq!(after, original);
+}
+
+// Test: --fix should produce no lint issues after fixing
+#[test]
+fn test_fix_then_lint_passes() {
+    let temp = tempfile::tempdir().unwrap();
+    let file_path = temp.path().join("test.txt");
+    fs::write(&file_path, "hello   \r\nworld\r\n\n\n").unwrap();
+    // First, fix
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path()).arg("--fix");
+    cmd.assert().success();
+    // Then, lint
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path());
+    cmd.assert().success();
+}
+
+// Test: --fix should leave empty files unchanged
+#[test]
+fn test_fix_empty_file() {
+    let temp = tempfile::tempdir().unwrap();
+    let file_path = temp.path().join("empty.txt");
+    fs::write(&file_path, "").unwrap();
+    let mut cmd = Command::cargo_bin("clean").unwrap();
+    cmd.arg(temp.path()).arg("--fix");
+    cmd.assert().success();
+    let after = fs::read_to_string(&file_path).unwrap();
+    assert_eq!(after, "");
+}

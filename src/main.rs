@@ -48,6 +48,9 @@ struct Cli {
     /// If set to false, all files (not just tracked) are linted, even in a git repository.
     #[arg(long, value_parser = clap::value_parser!(bool), num_args = 0..=1, default_missing_value = "true", action = ArgAction::Set)]
     git: Option<bool>,
+    /// Automatically fix all detected issues
+    #[arg(long, action = ArgAction::SetTrue)]
+    fix: bool,
 }
 
 #[derive(Debug, serde::Serialize, Clone)]
@@ -237,8 +240,22 @@ fn main() -> Result<()> {
                 continue;
             }
             let issues = lint_file(&path_str, &content);
-            all_issues.extend(issues);
+            if cli.fix && !issues.is_empty() {
+                let fixed = fix_file(&content);
+                if let Err(e) = fs::write(path, &fixed) {
+                    warn!("failed to fix file '{}': {}", path_str, e);
+                    all_issues.extend(issues);
+                }
+            } else {
+                all_issues.extend(issues);
+            }
         }
+    }
+    if cli.fix {
+        if all_issues.is_empty() {
+            return Ok(());
+        }
+        anyhow::bail!("failed to fix some files");
     }
     // Output
     let mut out: Box<dyn Write> = if let Some(ref p) = cli.output {
@@ -307,4 +324,23 @@ fn main() -> Result<()> {
         return Ok(());
     }
     anyhow::bail!("issues found");
+}
+
+fn fix_file(content: &str) -> String {
+    if content.is_empty() {
+        return String::new();
+    }
+    // Step 1: CRLF → LF
+    let content = content.replace("\r\n", "\n");
+    // Step 2: Trim trailing whitespace on each line
+    let mut lines: Vec<String> = content.split('\n').map(|l| l.trim_end().to_string()).collect();
+    // split on trailing \n produces an empty string at the end;
+    // keep it as a marker for the trailing newline
+    // Step 3: Remove multiple trailing blank lines — ensure exactly one trailing \n
+    while lines.len() > 1 && lines.last().map_or(false, |l| l.is_empty()) {
+        lines.pop();
+    }
+    // Step 4: Ensure file ends with \n
+    lines.push(String::new());
+    lines.join("\n")
 }
